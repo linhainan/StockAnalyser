@@ -1,4 +1,4 @@
-from DataCatcher import DataCatcher
+from tools.DataCatcher import DataCatcher
 
 class fund:
     name=''
