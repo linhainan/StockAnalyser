@@ -24,6 +24,8 @@ class Simple_Parser:
     def feed(self, data, stag, etag):
         headtag = stag.split(' ')[0]
         itemList = []
+        if not data:
+            return  itemlist
         pseek = 0
         while True:
             npos = data[pseek:].find(stag)
@@ -36,6 +38,17 @@ class Simple_Parser:
                 pseek += npos+nlen
             else:
                 return itemList
+    def content(self, data, stag, etag):
+        headtag = stag.split(' ')[0]
+        if not data:
+            return  ''
+        npos = data.find(stag)
+        slen = len(stag)
+        elen = len(etag)
+        if npos < 0:
+            return ''
+        nlen = self.Parser(str(data[npos:]), headtag, etag)
+        return data[npos+slen:npos+nlen-elen]
     def GetDiv(self, page):
         return self.feed(str(page), 'SNB.data.req_isBrick = 0;', "SNB.data.statusType")
     def GetLink(self, page):
