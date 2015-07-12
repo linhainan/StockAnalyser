@@ -1,4 +1,4 @@
-from Simple_WebCatcher import HTMLClient
+from tools.Simple_WebCatcher import HTMLClient
 import json
 
 class JisiluDataCatcher:
@@ -7,7 +7,7 @@ class JisiluDataCatcher:
         table_content = json.loads(webdata)["rows"]
         return table_content[0]
     def getvalue(self, code):
-	return self.getdata
+        return self.getdata(code)["cell"]["net_value"]
 
 if __name__ == '__main__':
     print(JisiluDataCatcher().getdata('161022'))

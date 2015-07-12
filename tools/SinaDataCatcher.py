@@ -1,18 +1,18 @@
-from Simple_WebCatcher import HTMLClient
+from tools.Simple_WebCatcher import HTMLClient
 class SinaDataCatcher:
     def getrtdata(self, sno):
-        webdata = HTMLClient().GetPage('http://hq.sinajs.cn/list='+str(sno), 'gbk')
+        webdata = HTMLClient().GetPage('http://hq.sinajs.cn/list=sz'+str(sno), 'gbk')
         if not webdata:
-            return None
+            return ''
         webdata = webdata.split('"')[1]
         if not webdata.strip():
-            return None
+            return ''
         data = webdata.split(',')
         stockdata={}
         stockdata["name"] = data[0]
         stockdata["openprice"] = data[1]
         stockdata["yesprice"] = data[2]
-        stockdata["curprice"] = data[3]
+        stockdata["parprice"] = data[3]
         stockdata["hprice"] = data[4]
         stockdata["lprice"] = data[5]
         stockdata["jb1"] = data[6]
@@ -42,9 +42,30 @@ class SinaDataCatcher:
         stockdata["date"] = data[30]
         stockdata["time"] = data[31]
         print (stockdata["curprice"])
+        return stockdata
+    def getvalue(self, sno):
+        surfix = self.surfix(sno)
+        webdata = HTMLClient().GetPage('http://hq.sinajs.cn/list='+str(surfix), 'gbk')
+        if not webdata:
+            return ''
+        webdata = webdata.split('"')[1]
+        if not webdata.strip():
+            return ''
+        data = webdata.split(',')
+        return data[3]
+    def getname(self, sno):
+        surfix = self.surfix(sno)
+        webdata = HTMLClient().GetPage('http://hq.sinajs.cn/list='+str(surfix), 'gbk')
+        if not webdata:
+            return ''
+        webdata = webdata.split('"')[1]
+        if not webdata.strip():
+            return ''
+        data = webdata.split(',')
+        return data[0]
     def surfix(self, no):
         sno = str(no)
-        if (int(sno[0:1]) > 5):
+        if (int(sno[0:1]) > 4):
             sno = 'sh' + str(no)
         elif (int(sno) == 1):
             sno = 'sh' + str(no)

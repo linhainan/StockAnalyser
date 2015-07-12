@@ -1,8 +1,8 @@
-from Simple_Parser import Simple_Parser
-from Simple_WebCatcher import HTMLClient
+from tools.Simple_Parser import Simple_Parser
+from tools.Simple_WebCatcher import HTMLClient
 import json
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 #    client = HTMLClient()
 #    parser = Simple_Parser()
 #    fpr = open("classificationfunda.list", 'r')
@@ -19,16 +19,18 @@ if __name__ == '__main__':
 #        code = fpr.readline()
 #    fpr.close()
 #    fpw.close()
-    client = HTMLClient()
-    fp = open("classificationfund.list", 'w')
-    webdata = client.GetPage('http://www.jisilu.cn/data/sfnew/funda_list/', 'utf-8')
-    xml_data = json.loads(webdata)
-    table = xml_data["rows"]
-    for row in table:
-        fp.write(row["id"]+',')
-        fp.write(str(int(row["id"])+1)+',')
-        fp.write(row["cell"]["funda_base_fund_id"]+',')
-        fp.write(row["cell"]["abrate"]+'\n')
-    fp.close()
+class Fundlist:
+    def init(self, path):
+        client = HTMLClient()
+        fp = open(path, 'w')
+        webdata = client.GetPage('http://www.jisilu.cn/data/sfnew/funda_list/', 'utf-8')
+        xml_data = json.loads(webdata)
+        table = xml_data["rows"]
+        for row in table:
+            fp.write(row["id"]+',')
+            fp.write(str(int(row["id"])+1)+',')
+            fp.write(row["cell"]["funda_base_fund_id"]+',')
+            fp.write(row["cell"]["abrate"]+'\n')
+        fp.close()
 
 
