@@ -37,10 +37,11 @@ class classificationfund:
         self.fund = fund(codef, 'f')
         self.abrate = decimal.Decimal(abrate)
     def overrate(self, limit):
-        rate = (self.funda.getvalue() * self.abrate + self.fundb.getvalue() * (1 - self.abrate)- self.fund.netvalue) / (self.fund.netvalue)
+        rate = 0
+        if self.fund.netvalue > decimal.Decimal(0):
+            rate = (self.funda.getvalue() * self.abrate + self.fundb.getvalue() * (1 - self.abrate)- self.fund.netvalue) / (self.fund.netvalue)
         if rate < decimal.Decimal(limit):
-            print('Funda Code: '+self.funda.code)
-        #print (rate)
+            print('Funda Code: '+self.funda.code+',rate '+ str(rate))
 
 def workperiod(nowh, nowm, starth, startm, endh, endm):
     delta = 0
@@ -55,6 +56,7 @@ def workperiod(nowh, nowm, starth, startm, endh, endm):
     return 0
 
 def alarmprog(cfundlist):
+    print("Alarm Clock Starting...")
     while True:
         t = time.localtime()
         delta = workperiod(t.tm_hour, t.tm_min, 9, 0, 15, 0)
